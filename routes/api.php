@@ -29,7 +29,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 |
 */
 Route::post('/login', [AuthController::class, 'login']);
-// Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/stockpredictions', [StockPredictionsController::class, 'index']);
+Route::get('stockpredictions/{ticker_symbol}', [StockPredictionsController::class, 'show']);
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +42,8 @@ Route::post('/login', [AuthController::class, 'login']);
 |
 */
 Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::resource('/stockpredictions', StockPredictionsController::class);
+    Route::post('/stockpredictions', [StockPredictionsController::class, 'store']);
+    Route::patch('/stockpredictions/{ticker_symbol}', [StockPredictionsController::class, 'update']);
+    Route::delete('/stockpredictions/{ticker_symbol}', [StockPredictionsController::class, 'delete']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
